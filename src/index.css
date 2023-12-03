@@ -5,9 +5,11 @@
   --color-theme: #F1EEDB;
   --color-bg: #282B24;
 
-  --animation-sentence: 'You know you\'re supposed to leave, right?';
+  --animation-sentence: 'You know you\'re supposed to leave, right? Click me to leave the page';
   --animation-duration: 40s;
 }
+
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -17,8 +19,12 @@ body {
   width: 100%;
   font-family: var(--font-text);
   color: var(--color-theme);
-  background: var(--color-bg);
+  background: #941c0b;
   overflow: hidden;
+}
+html {
+  width: 100%;
+  height: 100%;
 }
 .container {
   text-align: center;
@@ -59,10 +65,15 @@ svg.key {
 .ghost {
   /* border: 1px solid tomato; */
   position: absolute;
-  bottom: 5px;
+  bottom: 40px;
+  right: 20px;
   left: calc(50% - 100px);
   width: 200px;
   height: 200px;
+  .ghost:hover {
+    fill: #941c0b;
+  }
+
   /* have the ghost move to the right and to the left of the screen, turning to its central position and repeating the animation twice */
   animation: hoverGhost calc(var(--animation-duration)/2) ease-in-out 2;
 
@@ -79,6 +90,7 @@ svg.key {
   padding: 1rem;
   visibility: hidden;
   opacity: 0;
+  
   /* have each string of text introduced as the ghost returns from the right edge of the screen, and for the length of time it takes to cover the central portion (a fourth, which becomes an eight as the animation length is half the total duration) */
   /* the delay for an hypothetical duration of 40s is 7.5s for the first, 27.5s for the second and finally 40s for the last
   in fractions and with a bit of math it boils down to 3/16, 27/40 and 1
@@ -90,28 +102,64 @@ svg.key {
     showFinalText calc(var(--animation-duration)/8) var(--animation-duration) ease-out forwards;
 
 }
+.id{
+  font-family:SmileySans;
+  font-size: 1.5rem;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  color: #c06553;
+}
+.ghost {
+  animation: floatGhost 12s ease-in-out infinite;
+}
 
+@keyframes colorChangeGhost3 {
+  0% {
+    fill: #F2EFEA;
+  }
+  25% {
+    fill: #EFE7DA;
+  }
+  50% {
+    fill: #C06553;
+  }
+  75% {
+    fill: #E1A38E;
+  }
+  100% {
+    fill: #F2EFEA;
+  }
+}
+
+.ghost3 {
+  animation: colorChangeGhost3 12s ease-in-out infinite;
+}
 /* define the keyframe animations
 - hoverghost to have the ghost move right, left and then back to its default position
 - showKey to introduce into view the key (and keyhole) svg
 - showText, showNewText, showFinalText to show the different strings (the implementation is quite quirky and primed for optimization)
  */
-@keyframes hoverGhost {
+ @keyframes floatGhost {
+  0%, 100% {
+    transform: translateY(20px);
+  }
   25% {
-    transform: translateX(20vw);
+    transform: translateX(15vw);
   }
   75% {
-    transform: translateX(-20vw);
+    transform: translateX(-15vw);
+  }
+  50% {
+    transform: translateY(-20px);
   }
 }
-
 @keyframes showKey {
   to {
     opacity: 1;
     visibility: visible;
   }
 }
-
 
 /* alter the text changing the value of the custom property, weary of changing its value when the pseudo element is hidden and changing its value in the last keyframe (as the animation gives this value as per the "forwards" value of the fill-mode property)  */
 @keyframes showText {
@@ -125,7 +173,7 @@ svg.key {
     visibility: visible;
   }
   99% {
-    --animation-sentence: 'You know you\'re supposed to leave, right?';
+    --animation-sentence: 'You know you\'re supposed to leave, right?\'click me to leave the page\'';
     opacity: 0;
     visibility: hidden;
   }
