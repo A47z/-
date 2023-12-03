@@ -25,5 +25,5 @@ export default {
     font-family: 'SmileySans';
     font-weight: 400;
   }
-  
+  @import './styles.css';
 </style>
